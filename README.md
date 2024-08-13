@@ -27,9 +27,23 @@ Interactive Image Capture: The user can control the image capture process via ke
 Technologies Used:
 
 Python
+
+
+
+
 OpenCV
 NumPy
 OS module
 
 
-I used my own dataset to train both the models
+
+I used my dataset to train both the models
+
+![WhatsApp Image 2024-08-09 at 1 15 15 PM](https://github.com/user-attachments/assets/effc8acb-c01e-417a-a6b8-2d8ac6157ff2)
+![WhatsApp Image 2024-08-09 at 1 13 38 PM](https://github.com/user-attachments/assets/0aff47be-c233-4270-be17-544e1f2b9602)
+![WhatsApp Image 2024-08-09 at 1 21 41 PM](https://github.com/user-attachments/assets/4a730737-329b-4db7-8b06-5cfe0e7689b6)
+![WhatsApp Image 2024-08-09 at 1 19 48 PM](https://github.com/user-attachments/assets/0a53be3a-1489-4379-8004-60046269c3d0)
+![WhatsApp Image 2024-08-09 at 1 16 06 PM](https://github.com/user-attachments/assets/c28202ba-6542-4f4c-8b69-86efd75337f6)
+
+
+
