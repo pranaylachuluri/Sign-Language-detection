@@ -1,49 +1,45 @@
-Project 1: Real-Time Hand Gesture Recognition (app.ipynb)
-Description:
-This project focuses on real-time hand gesture recognition using the MediaPipe library for detecting and processing hand landmarks. The system captures hand movements through a webcam and interprets them as specific gestures. It utilizes OpenCV for image processing and visualization, alongside TensorFlow to load and use pre-trained models.
+# Real-Time Sign Language Detection
 
-Key Features:
+Recognizes sign language gestures from a live webcam feed. MediaPipe tracks 21 hand landmarks per frame, and a custom TensorFlow/Keras LSTM trained on my own gesture dataset turns them into words shown on screen in real time.
 
-Real-Time Detection: Utilizes MediaPipe to perform real-time hand detection and landmark recognition.
-Gesture Recognition: Recognizes predefined hand gestures by processing the detected hand landmarks.
-Integration with TensorFlow: The project uses a TensorFlow model for gesture classification, allowing for efficient and accurate predictions.
-User-Friendly Interface: Visual feedback is provided through the webcam feed, displaying detected gestures in real-time.
-Technologies Used:
+## Demo
 
-Python
-OpenCV
-MediaPipe
-TensorFlow
-NumPy
-Project 2: Gesture Image Collection for Training (gestures.ipynb)
-Description:
-This project is designed to collect and organize a dataset of hand gesture images for training machine learning models. It captures images from a webcam and sorts them into directories corresponding to specific gestures. This dataset can be used for training models in gesture recognition tasks.
+![Live gesture prediction](https://github.com/user-attachments/assets/effc8acb-c01e-417a-a6b8-2d8ac6157ff2)
+![Live gesture prediction](https://github.com/user-attachments/assets/0aff47be-c233-4270-be17-544e1f2b9602)
+![Live gesture prediction](https://github.com/user-attachments/assets/4a730737-329b-4db7-8b06-5cfe0e7689b6)
+![Live gesture prediction](https://github.com/user-attachments/assets/0a53be3a-1489-4379-8004-60046269c3d0)
+![Live gesture prediction](https://github.com/user-attachments/assets/c28202ba-6542-4f4c-8b69-86efd75337f6)
 
-Key Features:
+## How it works
 
-Dataset Creation: Automatically captures images from a webcam and categorizes them into directories based on the gesture being performed.
-Gesture Labels: Supports a variety of common gestures such as 'Hello', 'Yes', 'No', 'Thank you', and more.
-Interactive Image Capture: The user can control the image capture process via keyboard inputs, allowing for easy collection of gesture data.
-Technologies Used:
+1. **Collect data** (`gestures.ipynb`): capture webcam images with keyboard controls and save them into one folder per gesture.
+2. **Extract features** (`function.py`): MediaPipe Hands finds the hand in each frame and returns 21 landmarks × (x, y, z) = 63 features.
+3. **Train** a stacked LSTM network (3 LSTM layers of 64/128/64 units, then dense layers) on 30-frame landmark sequences to classify 22 gestures. The architecture is saved in `model.json` and the weights in `model.keras`.
+4. **Predict live** (`app.ipynb`): stream the webcam with OpenCV, run the model on the latest 30 frames, and overlay the predicted gesture and class probabilities.
 
-Python
+Gestures in the current model: Hello, Yes, No, Thank you, Sorry, Eat, Like, Want, I Love You, Which, Peace, Bathroom, Good, Bad, Stop, Money, Happy, Phone, Hear, See, Drink, Walk.
 
+## Tech stack
 
+Python · TensorFlow / Keras · MediaPipe · OpenCV · NumPy
 
+## Run it
 
-OpenCV
-NumPy
-OS module
+```bash
+pip install tensorflow keras mediapipe opencv-python numpy
+jupyter notebook app.ipynb
+```
 
+Run the cells in `app.ipynb` with a webcam connected. Press `q` to quit the video window.
 
+To train on your own gestures, run `gestures.ipynb` to collect images first, then retrain the model.
 
-I used my dataset to train both the models
+## Files
 
-![WhatsApp Image 2024-08-09 at 1 15 15 PM](https://github.com/user-attachments/assets/effc8acb-c01e-417a-a6b8-2d8ac6157ff2)
-![WhatsApp Image 2024-08-09 at 1 13 38 PM](https://github.com/user-attachments/assets/0aff47be-c233-4270-be17-544e1f2b9602)
-![WhatsApp Image 2024-08-09 at 1 21 41 PM](https://github.com/user-attachments/assets/4a730737-329b-4db7-8b06-5cfe0e7689b6)
-![WhatsApp Image 2024-08-09 at 1 19 48 PM](https://github.com/user-attachments/assets/0a53be3a-1489-4379-8004-60046269c3d0)
-![WhatsApp Image 2024-08-09 at 1 16 06 PM](https://github.com/user-attachments/assets/c28202ba-6542-4f4c-8b69-86efd75337f6)
-
-
-
+| File | Purpose |
+| --- | --- |
+| `app.ipynb` | Real-time recognition from the webcam |
+| `gestures.ipynb` | Gesture image collection |
+| `function.py` | MediaPipe detection, keypoint extraction and gesture labels |
+| `function.py.txt` | Earlier version of `function.py` for A–Z letters |
+| `model.json`, `model.keras` | Trained model architecture and weights |
