@@ -26,20 +26,30 @@ Python · TensorFlow / Keras · MediaPipe · OpenCV · NumPy
 ## Run it
 
 ```bash
-pip install tensorflow keras mediapipe opencv-python numpy
-jupyter notebook app.ipynb
+pip install -r requirements.txt
+python detect.py              # webcam 0, confidence threshold 0.8
+python detect.py --camera 1 --threshold 0.9
 ```
 
-Run the cells in `app.ipynb` with a webcam connected. Press `q` to quit the video window.
+Hold your hand inside the white box. A gesture is shown only after it wins 10 predictions in a row above the threshold, which stops the label from flickering. Press `q` to quit. `app.ipynb` runs the same loop inside Jupyter.
 
-To train on your own gestures, run `gestures.ipynb` to collect images first, then retrain the model.
+To train on your own gestures, collect data with `gestures.ipynb`, extract 30-frame keypoint sequences into `MP_Data/<gesture>/<sequence>/<frame>.npy`, then run:
+
+```bash
+python train.py
+```
+
+It holds out 15% of sequences (stratified), trains with early stopping, prints a per-gesture classification report and saves `model.json` and `model.keras`. Note that `gestures.ipynb` currently has key bindings for 12 of the 22 gestures, so add bindings for any new ones.
 
 ## Files
 
 | File | Purpose |
 | --- | --- |
-| `app.ipynb` | Real-time recognition from the webcam |
+| `detect.py` | Real-time recognition from the webcam (command line) |
+| `train.py` | Train and evaluate the LSTM on collected keypoint sequences |
+| `app.ipynb` | Real-time recognition inside Jupyter |
 | `gestures.ipynb` | Gesture image collection |
 | `function.py` | MediaPipe detection, keypoint extraction and gesture labels |
 | `function.py.txt` | Earlier version of `function.py` for A–Z letters |
 | `model.json`, `model.keras` | Trained model architecture and weights |
+| `requirements.txt` | Python dependencies |
